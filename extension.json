@@ -3,12 +3,15 @@
 	"version": "2.0.0",
 	"author": [
 		"Alexia E. Smith",
-		"Curse Inc&copy;"
+		"Hydra Wiki Platform Team"
 	],
-	"url": "https://github.com/HydraWiki/SlideBoxLightShow",
+	"url": "https://gitlab.com/hydrawiki/extensions/SlideBoxLightShow/",
 	"descriptionmsg": "slideboxlightshow_description",
-	"license-name": "GPL-3.0",
+	"license-name": "GPL-3.0-only",
 	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.29.0"
+	},
 	"MessagesDirs": {
 		"SlideBoxLightShow": [
 			"i18n"
