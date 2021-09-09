@@ -182,20 +182,34 @@ class SlideBoxLightShowHooks {
 				$fileHTML .= "
 						<div id='{$md5Set}-".md5($file['html'])."' class='sbls-image' style='height: {$boxHeight}px; width: {$boxWidth}px; text-align: {$arguments['halign']}; vertical-align: {$arguments['valign']};'>{$file['html']}</div>";
 			} elseif ($arguments['slideshowonly']) {
-				$fileHTML .= "
-						<div id='{$md5Set}-".md5($file['thumb']->getUrl())."' class='sbls-image' style='height: {$boxHeight}px; width: {$boxWidth}px; text-align: {$arguments['halign']}; vertical-align: {$arguments['valign']};'><img src='{$file['thumb']->getUrl()}'/>";
-				if (!empty($file['description'])) {
-					$fileHTML .= "
-							<a href='".($file['link'] !== false ? $file['link'] : $file['full']->getUrl())."'><span class='sbls-description'>".$file['description']."</span></a>";
+				$containerAttrs = [
+					'id' => $md5Set . '-' . md5($file['thumb']->getUrl()),
+					'class' => 'sbls-image',
+					'style' => "height: {$boxHeight}px; width: {$boxWidth}px; text-align: {$arguments['halign']}; vertical-align: {$arguments['valign']};"
+				];
+				$properContent = Html::element('img', ['src' => $file['thumb']->getUrl()]);
+				if ( !empty($file['description']) ) {
+					$properLinkContent = Html::element('span', ['class' => 'sbls-description'], $file['description']);
+					$properContent .= Html::rawElement('a', [
+						'href' => ($file['link'] !== false ? $file['link'] : $file['full']->getUrl())
+					], $properLinkContent);
 				}
-				$fileHTML .= "
-						</div>";
+				$container = Html::rawElement('div', $containerAttrs, $properContent);
+				$fileHTML .= $container;
 			} else {
-				$fileHTML .= "<a id='{$md5Set}-".md5($file['thumb']->getUrl())."' href='".($file['link'] !== false ? $file['link'] : $file['full']->getUrl())."' ".($arguments['popup'] ? "data-lightbox='sbls-{$md5Set}-set' " : null)."class='sbls-image' style='height: {$boxHeight}px; width: {$boxWidth}px; text-align: {$arguments['halign']}; vertical-align: {$arguments['valign']};'><img src='{$file['thumb']->getUrl()}'/>";
-				if (!empty($file['description'])) {
-					$fileHTML .= "<span class='sbls-description'>".$file['description']."</span>";
+				$linkAttrs = [
+					'id' => $md5Set . '-' . md5($file['thumb']->getUrl()),
+					'href' => ($file['link'] !== false ? $file['link'] : $file['full']->getUrl()),
+					'data-lightbox' => "sbls-{$md5Set}-set",
+					'class' => 'sbls-image',
+					'style' => "height: {$boxHeight}px; width: {$boxWidth}px; text-align: {$arguments['halign']}; vertical-align: {$arguments['valign']};"
+				];
+				$properLinkContent = Html::element('img', ['src' => $file['thumb']->getUrl()]);
+				if ( !empty($file['description']) ) {
+					$properLinkContent .= Html::element('span', ['class' => 'sbls-description'], $file['description']);
 				}
-				$fileHTML .= "</a>";
+				$link = Html::rawElement('a', $linkAttrs, $properLinkContent);
+				$fileHTML .= $link;
 			}
 		}
 		$fileHTML .= "
