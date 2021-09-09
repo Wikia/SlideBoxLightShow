@@ -5,3 +5,5 @@
 .svn
 /vendor
 composer.lock
+
+.idea
